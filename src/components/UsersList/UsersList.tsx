@@ -6,42 +6,63 @@ interface usersListProps {
   users: {
     key: string,
     name: string,
-    cpf: number
+    cpf: string
   }[]
 }
 
 export function UsersList({ users }: usersListProps) {
 
+
   return (
+    // <div className={styles.listContainer}>
 
-    <div className={styles.listContainer}>
-      <h3>Lista de Usuários</h3>
+    //   <div>
+    //     <h4>Filtrar Usuário:</h4>
+    //     <input
+    //       type="text"
+    //       onChange={(event) => event.target.value}
+    //       maxLength={16}
+    //     />
+    //   </div>
 
-      <div>
-        {
-          users.map(data => (
-            <div key={data.key} className={styles.itemList}>
 
-              <div>
-                <h4>Nome:</h4>
-                <p>{data.name}</p>
-              </div>
+    //   <h3>Lista de Usuários</h3>
 
-              <div>
-                <h4>Cpf:</h4>
-                <p>{data.cpf}</p>
-              </div>
+    //   <div className={styles.usersList}>
 
-              <div className={styles.buttonsItemList}>
-                <button onClick={() => console.log(`editar um usuário ${data.key}`)}>editar</button>
-                <button onClick={() => deleteUser(data.key)}>excluir</button>
-              </div>
-            </div>
-          ))
-        }
+    //     <table>
+    //       <thead>
+    //         <tr>
+    //           <th>Nome</th>
+    //           <th>CPF</th>
+    //           <th>Options</th>
+    //         </tr>
+    //       </thead>
+    //       <tbody>
+    //         {
+    //           users.map(data => (
+    //             <tr key={data.key}>
+    //               <td>{data.name}</td>
+    //               <td>{data.cpf}</td>
+    //               <td>
+    //                 <button className={styles.editar} onClick={() => console.log(data.key)}>Editar</button>
+    //                 <button className={styles.delete} onClick={() => deleteUser(data.key)}>Deletar</button>
+    //               </td>
+    //             </tr>
+    //           ))
+    //         }
 
-      </div>
-    </div>
+    //       </tbody>
+    //     </table>
+
+    //   </div>
+
+
+
+    // </div>
+
+    <>
+    </>
 
   )
 }

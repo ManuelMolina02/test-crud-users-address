@@ -1,15 +1,56 @@
 .formUser {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
+
+  height: 360px;
 
   align-items: center;
 
   border-radius: 8px;
-  padding: 2rem;
+  padding: 2.4rem;
 
   background-color: rgba(255, 255, 255, 0.048);
 
+  .formButtons {
+    display: flex;
+    flex-direction: row;
+
+    .clearData {
+      width: 40px;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 70%;
+        height: 70%;
+      }
+
+      &:hover {
+        background-color: #f84343d3;
+      }
+    }
+
+    .createUser {
+      background-color: #288654;
+      transition: background 0.3s;
+
+      &:hover {
+        background-color: #38a169;
+      }
+    }
+
+    .updateUser {
+      background-color: #3182ce;
+      transition: background 0.3s;
+
+      &:hover {
+        background-color: #4299e1;
+      }
+    }
+  }
   > div {
     display: flex;
     flex-direction: column;
@@ -47,9 +88,128 @@
     color: rgb(224, 224, 224);
 
     transition: filter 0.2s;
+  }
+}
+
+.listContainer {
+  border-radius: 8px;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.048);
+
+  h3 {
+    font-size: 22px;
+    margin: 2rem 0;
+  }
+
+  input {
+    width: 260px;
+    height: 40px;
+    padding: 0 12px;
+    outline: none;
+    border: none;
+    margin: 1rem 0;
+
+    background-color: rgba(255, 255, 255, 0.089);
+    border-radius: 8px;
+
+    font-size: 18px;
+    color: rgb(224, 224, 224);
+  }
+
+  .itemList {
+    width: 180px;
+
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+
+    border: 1px solid rgb(105, 105, 105);
+    border-radius: 8px;
+  }
+
+  .buttonsItemList {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  button {
+    width: 66px;
+    height: 28px;
+    font-size: 16px;
+
+    border: none;
+    border-radius: 6px;
+
+    background-color: rgba(223, 223, 223, 0.144);
+
+    color: rgb(224, 224, 224);
+
+    transition: filter 0.2s;
 
     &:hover {
       filter: brightness(0.8);
+    }
+  }
+}
+
+.usersList {
+  background-color: rgba(223, 223, 223, 0.096);
+  border-radius: 8px 8px 0 0;
+  width: 580px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    span {
+      margin-right: 6px;
+    }
+  }
+
+  .delete {
+    background-color: rgba(245, 23, 23, 0.575);
+  }
+
+  .editar {
+    background-color: rgba(31, 211, 243, 0.527);
+  }
+
+  table {
+    width: 100%;
+    text-align: initial;
+
+    th,
+    td {
+      font-size: 16px;
+      padding: 12px 0;
+      text-align: center;
+
+      > div {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+    }
+
+    tbody tr td:last-child {
+      width: 260px;
+    }
+
+    thead > tr {
+      background-color: rgba(0, 0, 0, 0.418);
+
+      :first-child {
+        border-radius: 8px 0 0 0;
+      }
+
+      :last-child {
+        border-radius: 0 8px 0 0;
+      }
+    }
+
+    td {
+      background-color: rgba(0, 0, 0, 0.178);
     }
   }
 }
