@@ -9,6 +9,7 @@
 
   --gray-50: #e1e1e6;
   --gray-300: #a8a8b3;
+  --gray-500: #71717a;
   --gray-700: #29292e;
   --gray-900: #121214;
 
@@ -23,7 +24,8 @@ body {
   background: #22212c;
   color: var(--white);
   width: 100%;
-  display: flex;
+  max-width: 1120px;
+  margin: 0 auto;
 }
 
 body,

@@ -1,40 +1,7 @@
 .container {
-  margin: 2rem;
-  display: flex;
-  gap: 50px;
-}
-
-.controlsLocalStorage {
   display: grid;
-  gap: 20px;
+  gap: 40px;
 
-  text-align: center;
-
-  padding: 2rem;
-  margin: 2rem 0;
-
-  border-radius: 8px;
-  background-color: rgba(223, 223, 223, 0.096);
-
-  > div {
-    display: flex;
-    gap: 16px;
-    button {
-      width: 100px;
-      height: 40px;
-      background-color: rgba(223, 223, 223, 0.144);
-
-      border-radius: 8px;
-      border: none;
-
-      font-size: 20px;
-      color: rgb(224, 224, 224);
-
-      transition: filter 0.2s;
-
-      &:hover {
-        filter: brightness(0.8);
-      }
-    }
-  }
+  margin: 2rem;
+  padding: 1.6rem;
 }

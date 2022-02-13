@@ -1,20 +1,32 @@
-import { FormUser } from '../components/FormUser/FormUser'
-
-import { UsersList } from '../components/UsersList/UsersList';
 import { useGetUsers } from '../hooks/useGetUsers';
+import { Form } from '../components/Form/Form';
+import { Table } from '../components/Table/Table';
 
 import styles from '../styles/home.module.scss'
+import { useState } from 'react';
 
 
 export default function Home() {
 
   const users = useGetUsers()
 
+
+  const [userSelected, setUserSelected] = useState({} as any)
+
+  function showUserData(key: string) {
+
+    const user = users.find(data => data.key === key)
+    setUserSelected(user)
+  }
+
+
+
   return (
     <div className={styles.container}>
-      <FormUser users={users} />
+      <Form users={users} userSelected={userSelected} />
 
-      <UsersList users={users} />
+      <Table users={users} showUserData={showUserData} />
+
     </div>
   )
 }
