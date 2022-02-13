@@ -2,10 +2,12 @@ import { onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { db } from "../service/database";
 
+
 interface userProps {
   key: string,
   name: string,
-  cpf: string
+  cpf: string,
+  endereco: []
 }
 
 export function useGetUsers() {
@@ -22,7 +24,8 @@ export function useGetUsers() {
           return {
             key: key,
             name: value.name,
-            cpf: value.cpf
+            cpf: value.cpf,
+            endereco: value.endereco
           }
         })
 
@@ -33,3 +36,4 @@ export function useGetUsers() {
 
   return users
 }
+

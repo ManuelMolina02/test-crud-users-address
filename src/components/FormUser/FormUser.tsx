@@ -2,17 +2,27 @@
 import { FormEvent, useState } from 'react'
 import styles from './formUser.module.scss'
 import { v4 as uuid } from 'uuid'
-import { setUserCreation, deleteUser, setUserUpdate } from '../../service/database'
-import { AiTwotoneEdit, AiFillDelete, AiOutlineClear } from 'react-icons/ai'
-import { MdClear } from 'react-icons/md'
-import { cancelUserEdit, clearInput, cpfAlreadyExists, selectUserByKey } from '../../service/fuctions'
+import { setUser, deleteUser, setUserUpdate } from '../../service/database'
+import { AiTwotoneEdit, AiFillDelete } from 'react-icons/ai'
+import { cpfAlreadyExists, selectUserByKey } from '../../service/fuctions'
+import { Input } from '../Input/Input'
+import { Button } from '../Buttons/ Buttons'
 
 interface formProps {
   users: {
     key: string,
     name: string,
-    cpf: string
+    cpf: string,
+    endereco: AddressProps[]
   }[]
+}
+
+type AddressProps = {
+  rua: string,
+  bairro: string,
+  cidade: string,
+  estado: string,
+  cep: string
 }
 
 export function FormUser({ users }: formProps) {
@@ -24,20 +34,23 @@ export function FormUser({ users }: formProps) {
   const [atualizando, setAtualizando] = useState<boolean>(false)
   const [cancel, setCancel] = useState<boolean>(false)
 
+  // const [user, setUser] = useState('')
 
-  function userCreate(event: FormEvent) {
+
+  function createUser(event: FormEvent) {
     event.preventDefault()
 
     //validar se existe outro usuário com o mesmo cpf
     cpfAlreadyExists(users, cpf)
 
-    setUserCreation({
+    setUser({
       key: uuid() as string,
       name,
       cpf
     })
 
-    clearInput(setName, setCpf)
+    setName('')
+    setCpf('')
   }
 
 
@@ -63,64 +76,81 @@ export function FormUser({ users }: formProps) {
       cpf,
     })
 
-    clearInput(setName, setCpf)
+    setName('')
+    setCpf('')
   }
+
+  function clearInput() {
+    setName('')
+    setCpf('')
+  }
+
+  function cancelUserEdit() {
+    setAtualizando(false)
+    setCancel(false)
+
+    setName('')
+    setCpf('')
+  }
+
+  const userKey = '7e7bfd72-299f-433d-a0df-6fceebf2da33'
+
+  // function handleUser(userKey: string) {
+  //   const user = users.find((data, index) => data.key === userKey)
+
+  //   setUser(user)
+  // }
+
+  // console.log(user)
 
   return (
     <>
       <form className={styles.formUser}>
 
-        <div>
-          <label>Nome</label>
-          <input
-            type="text"
-            required
-            value={name}
-            onChange={(event) => setName(event.target.value)}
+        <Input
+          title={'Nome'}
+          value={name}
+          setData={setName}
+          maxLength={22}
+        />
 
-            maxLength={22}
-          />
-        </div>
-
-        <div>
-          <label>CPF</label>
-          <input
-            type="text"
-            required
-            value={cpf}
-            onChange={(event) => setCpf(event.target.value)}
-
-            maxLength={14}
-          />
-        </div>
+        <Input
+          title={'CPF'}
+          value={cpf}
+          setData={setCpf}
+          maxLength={14}
+        />
 
         <div className={styles.formButtons}>
           {
             !atualizando ?
-              <button
-                className={styles.clearData}
-                onClick={() => clearInput(setName, setCpf)}>
-                <AiOutlineClear />
+              <Button
+                type='delete'
+                action={() => clearInput()}
+              />
 
-              </button>
-
-              : <button
-                className={styles.clearData}
-                onClick={() => cancelUserEdit(setName, setCpf, setAtualizando, setCancel)}>
-                <MdClear />
-              </button>
+              :
+              <Button
+                type='clear'
+                action={() => cancelUserEdit()}
+              />
 
           }
           {
             !atualizando ?
-              <button
-                className={styles.createUser}
-                onClick={userCreate}>Criar</button>
-              : <button
-                className={styles.updateUser}
-                onClick={updateUser}>Atualizar</button>
+              <Button
+                type='create'
+                action={createUser}
+              />
+
+              :
+              <Button
+                type='update'
+                action={updateUser}
+              />
           }
         </div>
+
 
       </form>
 
@@ -139,14 +169,15 @@ export function FormUser({ users }: formProps) {
 
         <h3>Lista de Usuários</h3>
 
-        <div className={styles.usersList}>
+        <div className={styles.usersContent}>
 
           <table>
             <thead>
               <tr>
                 <th>Nome</th>
                 <th>CPF</th>
-                <th>Options</th>
+                <th>Endereço</th>
+                <th>Opções</th>
               </tr>
             </thead>
             <tbody>
@@ -155,6 +186,7 @@ export function FormUser({ users }: formProps) {
                   <tr key={data.key}>
                     <td>{data.name}</td>
                     <td>{data.cpf}</td>
+                    <td>{ }</td>
                     <td>
                       <div>
                         <button className={styles.editar} onClick={() => showUserData(data.key)}>
