@@ -78,7 +78,7 @@ export function Table({ users, showUserData, showAddress, handleAddressId, delet
 
       <div className={styles.usersContent}>
 
-        <Accordion className={styles.customAccordion} flush>
+        <Accordion className={styles.customAccordion}>
 
           {
             usersFiltered.map(data => (

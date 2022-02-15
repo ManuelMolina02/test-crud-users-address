@@ -21,7 +21,7 @@ export function selectAddress(listUsers, userId, addressId) {
 
 
 
-//Mascara de Input
+//Mascaras de Input
 export function maskInputCpf(event: React.FormEvent<HTMLInputElement>) {
   let value = event.currentTarget.value;
   value = value.replace(/\D/g, "");

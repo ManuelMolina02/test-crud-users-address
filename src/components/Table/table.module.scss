@@ -124,7 +124,7 @@
 
   .editar {
     &:hover {
-      background-color: #196caf;
+      background-color: #2b6cb0;
     }
   }
 
@@ -198,13 +198,18 @@
     transition: background 0.3s;
 
     &:hover {
-      filter: brightness(0.8);
+      background-color: #f84343d3;
     }
 
     & + button {
       width: 206px;
       height: 40px;
       margin-left: 0.8rem;
+
+      &:hover {
+        color: white;
+        background-color: #2b6cb0;
+      }
     }
   }
 }

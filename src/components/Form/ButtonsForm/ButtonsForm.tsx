@@ -45,7 +45,6 @@ export function ButtonsForm({ functions, stateButtons }: buttonsFormProps) {
             />
 
             :
-
             <>
               <Button
                 type='update'
@@ -57,7 +56,6 @@ export function ButtonsForm({ functions, stateButtons }: buttonsFormProps) {
 
                     <Button
                       title="Inserir Outro Endereço"
-
                       type='updateAddress'
                       action={functions.handleInputsNewAddress}
                     />
@@ -73,7 +71,6 @@ export function ButtonsForm({ functions, stateButtons }: buttonsFormProps) {
 
                     <Button
                       title="Realizar Cadastro"
-
                       type='updateAddress'
                       action={functions.addNewAddress}
                     />
