@@ -1,6 +1,7 @@
 
 import { addressProps, user } from "../../service/types";
 import { deleteUser } from "../../service/database";
+import { useEffect, useState } from "react";
 
 import styles from './table.module.scss'
 import Card from "react-bootstrap/Card";
@@ -8,6 +9,7 @@ import Accordion from "react-bootstrap/Accordion";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import { FaRegAddressCard } from 'react-icons/fa'
 import { AiTwotoneEdit, AiFillDelete } from 'react-icons/ai'
+import { AiOutlineClear } from 'react-icons/ai'
 
 interface tableProps {
   users: user[],
@@ -19,11 +21,16 @@ interface tableProps {
 
 export function Table({ users, showUserData, showAddress, handleAddressId, deleteAddre }: tableProps) {
 
+  const [filterUsers, setFilterUsers] = useState('')
+  const [usersFiltered, setUsersFiltered] = useState(users)
+
+  useEffect(() => {
+    setUsersFiltered(users)
+  }, [users])
+
   //Componente collapse personalizado
   function CustomToggle({ children, eventKey }) {
-    const decoratedOnClick = useAccordionButton(eventKey, () =>
-      console.log(''),
-    );
+    const decoratedOnClick = useAccordionButton(eventKey);
 
     return (
       <div
@@ -35,23 +42,36 @@ export function Table({ users, showUserData, showAddress, handleAddressId, delet
     );
   }
 
-  function countAddress() {
-    const data = users.map(data => data.endereco.map(data => data.key).length)
-    return data
+  function selectUser(user: string) {
+    const filterUsers = users.filter(data => data.name.includes(user))
+
+    setUsersFiltered(filterUsers)
   }
 
-  console.log(countAddress())
+  function clearFilter() {
+    setFilterUsers('')
+    selectUser('')
+  }
 
   return (
     <div className={styles.listContainer}>
 
-      <div>
+      <div className={styles.filterUser}>
         <h4>Filtrar Usuário:</h4>
-        <input
-          type="text"
-          onChange={(event) => event.target.value}
-          maxLength={16}
-        />
+        <div>
+          <input
+            type="text"
+            onChange={(event) => setFilterUsers(event.target.value)}
+            maxLength={16}
+            value={filterUsers}
+          />
+
+          <div>
+            <button onClick={() => clearFilter()}><AiOutlineClear /></button>
+            <button onClick={() => selectUser(filterUsers)}>Buscar</button>
+
+          </div>
+        </div>
       </div>
 
       <h3>Lista de Usuários</h3>
@@ -61,7 +81,7 @@ export function Table({ users, showUserData, showAddress, handleAddressId, delet
         <Accordion className={styles.customAccordion} flush>
 
           {
-            users.map(data => (
+            usersFiltered.map(data => (
               <Card key={data.key}>
                 <Card.Header>
 
