@@ -1,4 +1,3 @@
-import { FormEvent } from "react";
 import { Button } from "../../Buttons/ Buttons";
 import styles from './buttonsForm.module.scss'
 

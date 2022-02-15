@@ -1,6 +1,6 @@
-import { useEffect, useState, FormEvent } from 'react'
+import { useEffect, useState } from 'react'
 import { setNewAddress, setUser, setUserUpdate } from '../../service/database'
-import { cpfAlreadyExists, selectAddress, selectUserByKey } from '../../service/fuctions'
+import { cpfAlreadyExists, selectAddress } from '../../service/fuctions'
 import { addressProps, user } from '../../service/types'
 import { v4 as uuid } from 'uuid'
 
@@ -23,7 +23,6 @@ interface FormProps {
 export function Form({ users, userActive, addressDefault, addressActive }: FormProps) {
 
   //Campos Formulário
-
   const [key, setKey] = useState('')
   const [name, setName] = useState('')
   const [cpf, setCpf] = useState('')
@@ -38,14 +37,14 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
   const [uf, setUf] = useState<string>('')
   const [cep, setCep] = useState<string>('')
 
-  //Itens Selecionados do collapse
+  //Receptores de informações da tabela
   const { addressId, userId } = addressActive
   const { addressSelected, userSelected } = selectAddress(users, userId, addressId)
 
   const [updateUserBtn, setUpdateUserBtn] = useState<boolean>(false)
   const [newAdressBtn, setNewAddressBtn] = useState<boolean>(false)
 
-
+  //Atualizando dados para criar um usuário
   useEffect(() => {
 
     setKey(userActive.key)
@@ -65,6 +64,7 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
 
   }, [addressDefault, userActive])
 
+  //Atualizando dados para editar endereço do usuário
   useEffect(() => {
     setKey(userSelected?.key)
     setName(userSelected?.name)
@@ -79,12 +79,11 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
     setUf(addressSelected?.uf)
     setCep(addressSelected?.cep)
 
-
     setUpdateUserBtn(true)
 
   }, [addressSelected])
 
-  //controlando estados iniciais
+  //Resetando estado dos componentes
   useEffect(() => {
     setUpdateUserBtn(false)
     setNewAddressBtn(false)
@@ -92,8 +91,7 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
 
   }, [users])
 
-  //Form Controls
-
+  //Controles do formulário
   const [alert, setAlert] = useState(false)
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState('')
@@ -108,7 +106,6 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
     cep
   }
 
-  //Controles do Formulário
   function clearInputs() {
     setName('')
     setCpf('')
@@ -124,17 +121,15 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
 
   function cancelUserEdit() {
     setUpdateUserBtn(false)
-
     clearInputs()
   }
 
   function cancelAddressEdit() {
     setNewAddressBtn(false)
-
     clearInputs()
   }
 
-  //Alertas
+  //Reproduzir um alerta em tela
   function handleAlert(status, message) {
     setAlert(true)
     setStatus(status)
@@ -147,7 +142,6 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
   }
 
   function createUser() {
-
     if (!name || !cpf) {
       handleAlert('danger', 'Preencha todos os campos obrigatórios!')
       return
