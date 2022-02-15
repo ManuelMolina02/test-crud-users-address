@@ -1,0 +1,37 @@
+.formAddress {
+  display: flex;
+
+  flex-direction: column;
+  gap: 6px;
+  margin-right: 20px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    align-items: center;
+
+    border-radius: 8px;
+    padding: 2.4rem;
+    margin: 0 auto;
+
+    background-color: rgba(255, 255, 255, 0.048);
+
+    > div {
+      display: flex;
+      gap: 12px;
+
+      &:first-child {
+        display: grid;
+        grid-template-columns: 60% 15% 20%;
+      }
+
+      &:last-child {
+        display: grid;
+        grid-template-columns: 30% 30% 15% 18%;
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.formUser {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    height: 100%;
+
+    align-items: center;
+
+    border-radius: 8px;
+    padding: 2.4rem;
+    margin: 0 auto;
+
+    background-color: rgba(255, 255, 255, 0.048);
+  }
+}

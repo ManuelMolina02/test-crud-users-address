@@ -1,44 +1,27 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { setUser, setUserUpdate } from '../../service/database'
-import { cpfAlreadyExists, handleAddressObj, selectUserByKey } from '../../service/fuctions'
+import { useEffect, useState, FormEvent } from 'react'
+import { setNewAddress, setUser, setUserUpdate } from '../../service/database'
+import { cpfAlreadyExists, selectAddress, selectUserByKey } from '../../service/fuctions'
+import { addressProps, user } from '../../service/types'
 import { v4 as uuid } from 'uuid'
 
-import { Button } from '../Buttons/ Buttons'
-import { Input } from '../Input/Input'
-
 import styles from './form.module.scss'
-
+import Alert from 'react-bootstrap/Alert'
+import { ButtonsForm } from './ButtonsForm/ButtonsForm'
+import { FormAddress } from './FormAddress/FormAddress'
+import { FormUser } from './FormUser/ FormUser'
 
 interface FormProps {
-  users: {
-    key: string,
-    name: string,
-    cpf: string,
-    endereco?: addressProps | any
-  }[],
-
-
-  userSelected: {
-    key: string,
-    name: string,
-    cpf: string,
-    endereco?: addressProps | undefined
+  users: user[],
+  addressDefault: addressProps,
+  userActive: user,
+  addressActive: {
+    userId: string,
+    addressId: string
   }
 }
 
-type addressProps = {
-  address: string,
-  num: string,
-  complement: string,
-  district: string,
-  city: string,
-  uf: string,
-  cep: string
-}
 
-
-
-export function Form({ users, userSelected }: FormProps) {
+export function Form({ users, userActive, addressDefault, addressActive }: FormProps) {
 
   //Campos Formulário
 
@@ -46,6 +29,7 @@ export function Form({ users, userSelected }: FormProps) {
   const [name, setName] = useState('')
   const [cpf, setCpf] = useState('')
 
+  const [addressKey, setAddressKey] = useState('')
   const [address, setAddress] = useState<string>('')
   const [num, setNum] = useState<string>('')
   const [complement, setComplement] = useState<string>('')
@@ -55,108 +39,73 @@ export function Form({ users, userSelected }: FormProps) {
   const [uf, setUf] = useState<string>('')
   const [cep, setCep] = useState<string>('')
 
+  //Itens Selecionados do collapse
+  const { addressId, userId } = addressActive
+  const addressSelected = selectAddress(users, userId, addressId)
+
   useEffect(() => {
 
-    setUpdateButton(true)
+    setKey(userActive.key)
+    setName(userActive.name)
+    setCpf(userActive.cpf)
 
-    setKey(userSelected.key)
-    setName(userSelected.name)
-    setCpf(userSelected.cpf)
+    setAddressKey(addressDefault?.key)
+    setAddress(addressDefault?.address)
+    setNum(addressDefault?.num)
+    setComplement(addressDefault?.complement)
+    setDistrict(addressDefault?.district)
+    setCity(addressDefault?.city)
+    setUf(addressDefault?.uf)
+    setCep(addressDefault?.cep)
 
-    if (!userSelected.endereco) {
-      setAddress('')
-      setNum('')
-      setComplement('')
-      setDistrict('')
-      setCity('')
-      setUf('')
-      setCep('')
-    } else {
-      setAddress(userSelected.endereco[0].address)
-      setNum(userSelected.endereco[0].num)
-      setComplement(userSelected.endereco[0].complement)
-      setDistrict(userSelected.endereco[0].district)
-      setCity(userSelected.endereco[0].city)
-      setUf(userSelected.endereco[0].uf)
-      setCep(userSelected.endereco[0].cep)
-    }
+    setUpdateUserBtn(true)
 
-  }, [userSelected])
+  }, [userActive, addressDefault])
 
+  useEffect(() => {
 
-
-  //Controlando estados de botões
-  const [updateButton, setUpdateButton] = useState<boolean>(false)
+    setAddressKey(addressSelected?.key)
+    setAddress(addressSelected?.address)
+    setNum(addressSelected?.num)
+    setComplement(addressSelected?.complement)
+    setDistrict(addressSelected?.district)
+    setCity(addressSelected?.city)
+    setUf(addressSelected?.uf)
+    setCep(addressSelected?.cep)
 
 
-  function createUser(event: FormEvent) {
-    event.preventDefault()
+    setUpdateUserBtn(true)
 
+  }, [addressSelected])
 
-    //validar campos obrigatórios
-    if (!name || !cpf) {
-      alert("Preencha todos os campos obrigatórios")
-      return
-    }
+  //controlando estados iniciais
+  useEffect(() => {
+    setUpdateUserBtn(false)
+    setNewAddressBtn(false)
+    clearInputs()
+  }, [])
 
-    //validar se existe outro usuário com o mesmo cpf
-    const validCpf = cpfAlreadyExists(users, cpf)
+  //Form Controls
 
-    if (validCpf) {
-      alert('Esse CPF já foi cadastrado')
-      return
-    }
+  const [updateUserBtn, setUpdateUserBtn] = useState<boolean>(false)
+  const [newAdressBtn, setNewAddressBtn] = useState<boolean>(false)
 
-    const enderecoObj: addressProps[] = [{
-      address,
-      num,
-      complement,
-      district,
-      city,
-      uf,
-      cep
-    }]
+  const [alert, setAlert] = useState(false)
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState('')
 
-    const endereco = handleAddressObj(enderecoObj)
-
-    setUser({
-      key: uuid() as string,
-      name,
-      cpf,
-      endereco
-    })
-
-    setName('')
-    setCpf('')
+  const addressData = {
+    address,
+    num,
+    complement,
+    district,
+    city,
+    uf,
+    cep
   }
 
-  function updateUser() {
-    setUpdateButton(false)
-
-    const enderecoObj: addressProps[] = [{
-      address,
-      num,
-      complement,
-      district,
-      city,
-      uf,
-      cep
-    }]
-
-    const endereco = handleAddressObj(enderecoObj)
-
-    setUserUpdate({
-      key,
-      name,
-      cpf,
-      endereco
-    })
-
-    setName('')
-    setCpf('')
-  }
-
-  function clearInput() {
+  //Controles do Formulário
+  function clearInputs() {
     setName('')
     setCpf('')
 
@@ -170,10 +119,81 @@ export function Form({ users, userSelected }: FormProps) {
   }
 
   function cancelUserEdit() {
-    setUpdateButton(false)
+    setUpdateUserBtn(false)
 
-    setName('')
-    setCpf('')
+    clearInputs()
+  }
+
+  function cancelAddressEdit() {
+    setNewAddressBtn(false)
+
+    clearInputs()
+  }
+
+  //Alertas
+  function handleAlert(status, message) {
+    setAlert(true)
+    setStatus(status)
+    setMessage(message)
+
+    setTimeout(() => {
+      setAlert(false)
+
+    }, 4000)
+  }
+
+  function createUser(event: FormEvent) {
+    event.preventDefault()
+    //validar campos obrigatórios
+    if (!name || !cpf) {
+      handleAlert('danger', 'Preencha todos os campos obrigatórios!')
+      return
+    }
+
+    //validar se existe outro usuário com o mesmo cpf
+    const validCpf = cpfAlreadyExists(users, cpf)
+
+    if (validCpf) {
+      handleAlert('danger', 'Esse CPF já foi cadastrado!')
+      return
+    }
+
+    // validação form completo
+    // let addressData = validateObjFormAddress(objAddress)
+
+    // if (addressData.length === 0) {
+    //   handleAlert('danger', 'Preencha todos os dados do Form!')
+    //   return
+    // }
+
+    setUser({
+      key: uuid() as string,
+      name,
+      cpf,
+      endereco: addressData,
+      addressKey: uuid()
+    })
+
+    handleAlert('success', 'Usuário Cadastrado com sucesso!')
+    clearInputs()
+  }
+
+
+  function updateUser() {
+
+    setUserUpdate({
+      key,
+      addressKey,
+      name,
+      cpf,
+      endereco: addressData
+    })
+
+    clearInputs()
+  }
+
+  function handleInputsNewAddress(event: FormEvent) {
+    event.preventDefault()
 
     setAddress('')
     setNum('')
@@ -182,139 +202,99 @@ export function Form({ users, userSelected }: FormProps) {
     setCity('')
     setUf('')
     setCep('')
+
+    setNewAddressBtn(true)
   }
 
+  function addNewAddress(event: FormEvent) {
+    event.preventDefault()
+
+    setUpdateUserBtn(false)
+
+    setNewAddress({
+      key,
+      addressKey: uuid() as string,
+
+      endereco: addressData
+    })
+
+    clearInputs()
+  }
 
   return (
     <form
       className={styles.form}
     >
 
+      {/* Alert com retornos */}
+      {alert ?
+        <div className={styles.alert}>
+          <Alert variant={status}>
+            {message}
+          </Alert>
+        </div>
+        :
+        <div className={styles.alert}>
+        </div>
+      }
       <div className={styles.row}>
 
-        <div className={styles.formUser}>
-          <h2>Cadastro de Usuário <span>*Campos Obrigatórios</span></h2>
-          <div>
 
-            <Input
-              title={'Nome'}
-              value={name}
-              setData={setName}
-              maxLength={22}
-              require={false}
-            />
+        {/* Formulários */}
+        <FormUser
+          values={{
+            name,
+            cpf
+          }}
 
-            <Input
-              title={'CPF'}
-              value={cpf}
-              setData={setCpf}
-              maxLength={14}
-              require={false}
+          setValues={{
+            setName,
+            setCpf
+          }}
 
-            />
-          </div>
+        />
 
-        </div>
+        <FormAddress
+          values={{
+            address,
+            num,
+            complement,
+            district,
+            city,
+            uf,
+            cep
+          }}
 
-        <div className={styles.formAddress}>
-          <h2>Endereço <span>(Opcional)</span></h2>
-          <div>
-            <div>
-              <Input
-                title={'Rua'}
-                value={address}
-                setData={setAddress}
-                maxLength={22}
-                require={false}
-              />
-
-              <Input
-                title={'Número'}
-                value={num}
-                setData={setNum}
-                maxLength={14}
-                require={false}
-              />
-
-
-              <Input
-                title={'Complemento'}
-                value={complement}
-                setData={setComplement}
-                maxLength={14}
-                require={false}
-              />
-            </div>
-
-
-            <div>
-              <Input
-                title={'Bairro'}
-                value={district}
-                setData={setDistrict}
-                maxLength={14}
-                require={false}
-              />
-
-
-              <Input
-                title={'Cidade'}
-                value={city}
-                setData={setCity}
-                maxLength={14}
-                require={false}
-              />
-
-
-              <Input
-                title={'UF'}
-                value={uf}
-                setData={setUf}
-                maxLength={14}
-                require={false}
-              />
-
-              <Input
-                title={'CEP'}
-                value={cep}
-                setData={setCep}
-                maxLength={14}
-                require={false}
-              />
-            </div>
-          </div>
-        </div>
+          setValues={{
+            setAddress,
+            setNum,
+            setComplement,
+            setDistrict,
+            setCity,
+            setUf,
+            setCep
+          }}
+        />
       </div>
 
-      <div className={styles.formButtons}>
-        {
-          !updateButton ?
-            <Button
-              type='delete'
-              action={() => clearInput()}
-            />
+      {/* Controles do Form */}
+      <ButtonsForm
 
-            :
-            <Button
-              type='clear'
-              action={() => cancelUserEdit()}
-            />
+        stateButtons={{
+          updateUserBtn,
+          newAdressBtn
+        }}
 
-        }
-        {
-          !updateButton ?
-            <Button
-              type='create'
-              action={createUser}
-            />
-
-            :
-            <Button
-              type='update'
-              action={updateUser}
-            />
-        }
-      </div>
+        functions={{
+          updateUser,
+          createUser,
+          clearInputs,
+          addNewAddress,
+          cancelUserEdit,
+          cancelAddressEdit,
+          handleInputsNewAddress
+        }}
+      />
 
     </form>
 
