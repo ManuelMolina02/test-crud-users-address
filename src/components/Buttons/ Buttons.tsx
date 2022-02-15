@@ -49,7 +49,6 @@ function selectType(type: string) {
     }
   } else if (type === 'updateAddress') {
     return {
-      content: 'Inserir Outro Endereço',
       style: styles.updateAddress
     }
   }

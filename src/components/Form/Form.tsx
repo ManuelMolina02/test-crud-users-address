@@ -20,7 +20,6 @@ interface FormProps {
   }
 }
 
-
 export function Form({ users, userActive, addressDefault, addressActive }: FormProps) {
 
   //Campos Formulário
@@ -41,7 +40,11 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
 
   //Itens Selecionados do collapse
   const { addressId, userId } = addressActive
-  const addressSelected = selectAddress(users, userId, addressId)
+  const { addressSelected, userSelected } = selectAddress(users, userId, addressId)
+
+  const [updateUserBtn, setUpdateUserBtn] = useState<boolean>(false)
+  const [newAdressBtn, setNewAddressBtn] = useState<boolean>(false)
+
 
   useEffect(() => {
 
@@ -60,9 +63,12 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
 
     setUpdateUserBtn(true)
 
-  }, [userActive, addressDefault])
+  }, [addressDefault, userActive])
 
   useEffect(() => {
+    setKey(userSelected?.key)
+    setName(userSelected?.name)
+    setCpf(userSelected?.cpf)
 
     setAddressKey(addressSelected?.key)
     setAddress(addressSelected?.address)
@@ -76,19 +82,17 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
 
     setUpdateUserBtn(true)
 
-  }, [addressSelected])
+  }, [userSelected, addressSelected])
 
   //controlando estados iniciais
   useEffect(() => {
     setUpdateUserBtn(false)
     setNewAddressBtn(false)
     clearInputs()
-  }, [])
+
+  }, [users])
 
   //Form Controls
-
-  const [updateUserBtn, setUpdateUserBtn] = useState<boolean>(false)
-  const [newAdressBtn, setNewAddressBtn] = useState<boolean>(false)
 
   const [alert, setAlert] = useState(false)
   const [message, setMessage] = useState('')
@@ -142,29 +146,19 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
     }, 4000)
   }
 
-  function createUser(event: FormEvent) {
-    event.preventDefault()
-    //validar campos obrigatórios
+  function createUser() {
+
     if (!name || !cpf) {
       handleAlert('danger', 'Preencha todos os campos obrigatórios!')
       return
     }
 
-    //validar se existe outro usuário com o mesmo cpf
     const validCpf = cpfAlreadyExists(users, cpf)
 
     if (validCpf) {
       handleAlert('danger', 'Esse CPF já foi cadastrado!')
       return
     }
-
-    // validação form completo
-    // let addressData = validateObjFormAddress(objAddress)
-
-    // if (addressData.length === 0) {
-    //   handleAlert('danger', 'Preencha todos os dados do Form!')
-    //   return
-    // }
 
     setUser({
       key: uuid() as string,
@@ -174,8 +168,8 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
       addressKey: uuid()
     })
 
-    handleAlert('success', 'Usuário Cadastrado com sucesso!')
     clearInputs()
+    handleAlert('success', 'Usuário Cadastrado com sucesso!')
   }
 
 
@@ -190,10 +184,10 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
     })
 
     clearInputs()
+    handleAlert('success', 'Usuário atualizado com sucesso!')
   }
 
-  function handleInputsNewAddress(event: FormEvent) {
-    event.preventDefault()
+  function handleInputsNewAddress() {
 
     setAddress('')
     setNum('')
@@ -206,8 +200,7 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
     setNewAddressBtn(true)
   }
 
-  function addNewAddress(event: FormEvent) {
-    event.preventDefault()
+  function addNewAddress() {
 
     setUpdateUserBtn(false)
 
@@ -219,6 +212,8 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
     })
 
     clearInputs()
+    handleAlert('success', 'Endereço atualizado com sucesso!')
+
   }
 
   return (
@@ -295,9 +290,7 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
           handleInputsNewAddress
         }}
       />
-
     </form>
-
 
   )
 }

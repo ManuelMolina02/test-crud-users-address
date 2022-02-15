@@ -35,6 +35,8 @@ export function FormUser({ values, setValues }: formUserProps) {
           maxLength={14}
           require={false}
 
+          mask="cpf"
+
         />
       </div>
 

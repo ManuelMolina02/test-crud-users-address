@@ -13,9 +13,9 @@ interface buttonsFormProps {
     clearInputs: () => void
     cancelUserEdit: () => void
     cancelAddressEdit: () => void
-    createUser: (event: FormEvent<Element>) => void
-    addNewAddress: (event: FormEvent<Element>) => void
-    handleInputsNewAddress: (event: FormEvent<Element>) => void
+    createUser: () => void
+    addNewAddress: () => void
+    handleInputsNewAddress: () => void
   }
 }
 
@@ -57,6 +57,8 @@ export function ButtonsForm({ functions, stateButtons }: buttonsFormProps) {
                   <div className={styles.btnUpdateAddress}>
 
                     <Button
+                      title="Inserir Outro Endereço"
+
                       type='updateAddress'
                       action={functions.handleInputsNewAddress}
                     />
@@ -71,6 +73,8 @@ export function ButtonsForm({ functions, stateButtons }: buttonsFormProps) {
                     />
 
                     <Button
+                      title="Realizar Cadastro"
+
                       type='updateAddress'
                       action={functions.addNewAddress}
                     />

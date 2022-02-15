@@ -42,16 +42,15 @@ export function FormAddress({ values, setValues }: formAddressProps) {
             title={'Número'}
             value={values.num}
             setData={setValues.setNum}
-            maxLength={14}
+            maxLength={5}
             require={false}
           />
-
 
           <Input
             title={'Complemento'}
             value={values.complement}
             setData={setValues.setComplement}
-            maxLength={14}
+            maxLength={8}
             require={false}
           />
         </div>
@@ -66,21 +65,19 @@ export function FormAddress({ values, setValues }: formAddressProps) {
             require={false}
           />
 
-
           <Input
             title={'Cidade'}
             value={values.city}
             setData={setValues.setCity}
-            maxLength={14}
+            maxLength={18}
             require={false}
           />
-
 
           <Input
             title={'UF'}
             value={values.uf}
             setData={setValues.setUf}
-            maxLength={14}
+            maxLength={2}
             require={false}
           />
 
@@ -88,8 +85,9 @@ export function FormAddress({ values, setValues }: formAddressProps) {
             title={'CEP'}
             value={values.cep}
             setData={setValues.setCep}
-            maxLength={14}
+            maxLength={9}
             require={false}
+            mask="cep"
           />
         </div>
       </div>

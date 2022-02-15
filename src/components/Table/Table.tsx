@@ -35,6 +35,13 @@ export function Table({ users, showUserData, showAddress, handleAddressId, delet
     );
   }
 
+  function countAddress() {
+    const data = users.map(data => data.endereco.map(data => data.key).length)
+    return data
+  }
+
+  console.log(countAddress())
+
   return (
     <div className={styles.listContainer}>
 
@@ -133,9 +140,15 @@ export function Table({ users, showUserData, showAddress, handleAddressId, delet
                           <AiTwotoneEdit />
                         </button>
 
+
                         <button className={styles.deleteAddress} onClick={() => deleteAddre(data.key)}>
                           <AiFillDelete />
                         </button>
+
+
+
+
+
 
                       </div>
                     ))
