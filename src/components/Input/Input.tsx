@@ -14,7 +14,6 @@ export function Input({ title, value, setData, maxLength, require }: InputProps)
         type="text"
         required
 
-
         value={value}
         onChange={(event) => setData(event.target.value)}
         maxLength={maxLength}

@@ -4,11 +4,12 @@ import { MdClear } from 'react-icons/md'
 import styles from './buttons.module.scss'
 
 interface ButtonProps {
+  title?: string,
   type: string,
   action: (event: FormEvent<Element>) => void
 }
 
-export function Button({ type, action }: ButtonProps) {
+export function Button({ type, action, title }: ButtonProps) {
 
   const typeTheme = selectType(type)
 
@@ -16,9 +17,9 @@ export function Button({ type, action }: ButtonProps) {
 
     <button
       className={`${styles.createUser} ${typeTheme.style}`}
-
       onClick={action}
     >
+      {title}
       {typeTheme.content}
     </button>
 
@@ -36,15 +37,20 @@ function selectType(type: string) {
       content: 'Atualizar',
       style: styles.updateUser
     }
-  } else if (type === 'clear') {
+  } else if (type === 'delete') {
     return {
       content: <MdClear />,
       style: styles.clearData
     }
-  } else if (type === 'delete') {
+  } else if (type === 'clear') {
     return {
       content: <AiOutlineClear />,
       style: styles.clearData
+    }
+  } else if (type === 'updateAddress') {
+    return {
+      content: 'Inserir Outro Endereço',
+      style: styles.updateAddress
     }
   }
 }

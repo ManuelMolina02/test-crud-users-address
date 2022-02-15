@@ -37,3 +37,12 @@
     background-color: #f84343d3 !important;
   }
 }
+
+.updateAddress {
+  width: 226px !important;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: #196caf !important;
+  }
+}
