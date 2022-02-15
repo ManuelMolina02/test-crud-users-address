@@ -6,7 +6,7 @@
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-funcionalidades-disponiveis">Funcionalidades Disponiveis</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-como-contribuir">Como contribuir</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-como-instalar-o-projeto">Como instalar o projeto?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 
 ## 💻 Projeto
@@ -16,7 +16,7 @@ Este projeto trás como propoem um sistema de controle para usuários, sendo pos
 ## 🔖 Layout
 
 <h1 align="center">
-    <img alt="Tela aplicação" title="Tela aplicação" src="./public/images/layout.png" width="600px" height="380px" />
+    <img alt="Tela aplicação" title="Tela aplicação" src="./public/images/layout.png" width="560px" height="380px" />
 </h1>
 
 <br/>
