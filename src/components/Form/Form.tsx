@@ -82,7 +82,7 @@ export function Form({ users, userActive, addressDefault, addressActive }: FormP
 
     setUpdateUserBtn(true)
 
-  }, [userSelected, addressSelected])
+  }, [addressSelected])
 
   //controlando estados iniciais
   useEffect(() => {
