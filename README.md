@@ -13,6 +13,15 @@
 
 Este projeto trás como propoem um sistema de controle para usuários, sendo possível adicionar, editar e excluir as informações cadastradas em um banco de dados.
 
+## 🔖 Layout
+
+<h1 align="center">
+    <img alt="Tela aplicação" title="Tela aplicação" src="./public/images/layout.png" width="600px" height="380px" />
+</h1>
+
+<br/>
+<br/>
+
 ## 🚀 Tecnologias
 
 - [NextJS](https://nodejs.org/en/)
@@ -29,7 +38,7 @@ Este projeto trás como propoem um sistema de controle para usuários, sendo pos
 
 <br/>
 
-## Funcionalidades Disponiveis
+## ⚙ Funcionalidades Disponiveis
 
 ### Regras de negócio
 
@@ -65,6 +74,7 @@ Este projeto trás como propoem um sistema de controle para usuários, sendo pos
 
 - Botões da tabela devem adotar tema de acordo com as propriedades repassadas
 
+- Apresentar um alerta quando uma operação for bem ou mal sucessedida
 
 ## 🤔 Como instalar o projeto?
 
