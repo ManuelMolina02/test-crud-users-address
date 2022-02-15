@@ -1,26 +1,39 @@
-import { AiFillDelete, AiTwotoneEdit } from "react-icons/ai";
-import { deleteUser, UserProps } from "../../service/database";
+
+import { addressProps, user } from "../../service/types";
+import { deleteUser } from "../../service/database";
+
 import styles from './table.module.scss'
+import Card from "react-bootstrap/Card";
+import Accordion from "react-bootstrap/Accordion";
+import { useAccordionButton } from "react-bootstrap/AccordionButton";
+import { FaRegAddressCard } from 'react-icons/fa'
+import { AiTwotoneEdit, AiFillDelete } from 'react-icons/ai'
 
 interface tableProps {
-  users: {
-    key: string,
-    name: string,
-    cpf: string,
-    endereco: AddressProps[]
-  }[],
+  users: user[],
   showUserData: (key: string) => void
+  showAddress: (userId: string) => void
+  handleAddressId: (addresId: string) => void
+  deleteAddre: (addresId: string) => void
 }
 
-type AddressProps = {
-  rua: string,
-  bairro: string,
-  cidade: string,
-  estado: string,
-  cep: string
-}
+export function Table({ users, showUserData, showAddress, handleAddressId, deleteAddre }: tableProps) {
 
-export function Table({ users, showUserData }: tableProps) {
+  //Componente collapse personalizado
+  function CustomToggle({ children, eventKey }) {
+    const decoratedOnClick = useAccordionButton(eventKey, () =>
+      console.log(''),
+    );
+
+    return (
+      <div
+        className={styles.iconAddress}
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className={styles.listContainer}>
@@ -38,45 +51,100 @@ export function Table({ users, showUserData }: tableProps) {
 
       <div className={styles.usersContent}>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>CPF</th>
-              <th>Endereço</th>
-              <th>Opções</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              users.map(data => (
-                <tr key={data.key}>
-                  <td>{data.name}</td>
-                  <td>{data.cpf}</td>
-                  <td>{data.endereco ? 'X' : ''}</td>
-                  <td>
-                    <div>
-                      <button className={styles.editar} onClick={() => showUserData(data.key)}>
-                        <span>Editar</span>
+        <Accordion className={styles.customAccordion} flush>
 
-                        <AiTwotoneEdit />
+          {
+            users.map(data => (
+              <Card key={data.key}>
+                <Card.Header>
 
-                      </button>
-                      <button className={styles.delete} onClick={() => deleteUser(data.key)}>
+                  <div >
+                    <CustomToggle eventKey={data.key}> {<FaRegAddressCard onClick={() => showAddress(data.key)} />}</CustomToggle>
+                  </div>
 
-                        <span>Deletar</span>
-                        <AiFillDelete />
-
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            }
+                  <div className={styles.accordionContent}>
+                    {data.name}
+                  </div>
 
 
-          </tbody>
-        </table>
+                  <div className={styles.accordionContent}>
+                    {data.cpf}
+                  </div>
+
+                  <div className={`${styles.accordionContent} ${styles.buttonsItemList}`} >
+                    <button className={styles.editar} onClick={() => showUserData(data.key)}>
+                      <span>Editar</span>
+
+                      <AiTwotoneEdit />
+
+                    </button>
+                    <button className={styles.delete} onClick={() => deleteUser(data.key)}>
+
+                      <span>Deletar</span>
+                      <AiFillDelete />
+
+                    </button>
+                  </div>
+
+                </Card.Header>
+
+                <Accordion.Collapse eventKey={data.key}>
+                  <Card.Body bsPrefix={` py-3 ps-2 w-100`} style={{ backgroundColor: '#313142' }}>{
+
+                    data.endereco?.map((data: addressProps) => (
+                      <div key={data.key} className={styles.collapseContent}>
+                        <div>
+                          <label>Rua: </label>
+                          <span>{data.address}</span>
+                        </div>
+
+                        <div>
+                          <label>Número: </label>
+                          <span>{data.num}</span>
+                        </div>
+
+                        <div>
+                          <label>Complemento: </label>
+                          <span>{data.complement}</span>
+                        </div>
+
+                        <div>
+                          <label>Bairro: </label>
+                          <span>{data.district}</span>
+                        </div>
+
+                        <div>
+                          <label>Cidade: </label>
+                          <span>{data.city}</span>
+                        </div>
+
+                        <div>
+                          <label>UF: </label>
+                          <span>{data.uf}</span>
+                        </div>
+
+                        <div>
+                          <label>CEP: </label>
+                          <span>{data.cep}</span>
+                        </div>
+
+
+                        <button className={styles.updateAddress} onClick={() => handleAddressId(data.key)}>
+                          <AiTwotoneEdit />
+                        </button>
+
+                        <button className={styles.deleteAddress} onClick={() => deleteAddre(data.key)}>
+                          <AiFillDelete />
+                        </button>
+
+                      </div>
+                    ))
+                  }</Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            ))
+          }
+        </Accordion>
 
       </div>
     </div>
