@@ -5,7 +5,7 @@
 <p align="center">
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-rotas-app">Funcionalidades Disponiveis</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-funcionalidades-disponiveis">Funcionalidades Disponiveis</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-como-contribuir">Como contribuir</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 </p>
 
@@ -28,8 +28,6 @@ Este projeto trás como propoem um sistema de controle para usuários, sendo pos
 - [Uuid](https://www.uuidgenerator.net)
 
 <br/>
-<br/>
-
 
 ## Funcionalidades Disponiveis
 
@@ -57,7 +55,6 @@ Este projeto trás como propoem um sistema de controle para usuários, sendo pos
 
 - A criação de um endereço não é obrigatória
 
-
 ### Layout
 
 > Interface 
@@ -67,7 +64,6 @@ Este projeto trás como propoem um sistema de controle para usuários, sendo pos
 - Inputs de CPF e CEP devem inserir uma mascara nos caracteres
 
 - Botões da tabela devem adotar tema de acordo com as propriedades repassadas
-
 
 
 ## 🤔 Como instalar o projeto?
